@@ -7,6 +7,7 @@ import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
 import { getTelosExplorerLink } from 'utils'
 import { getFullDisplayBalance } from 'utils/formatBalance'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 import CopyAddress from './CopyAddress'
 import useGetAccount from '../../../hooks/useGetAccount'
 
@@ -66,6 +67,7 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowTlosBalance, onDismiss })
               <Text as="p">{t('Please switch network.')}</Text>
             </Box>
           </Message>
+          <ConnectWalletButton scale="md" text="Switch Network" />
         </>
       }
     </>

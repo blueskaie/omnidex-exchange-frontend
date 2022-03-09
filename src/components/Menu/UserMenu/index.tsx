@@ -1,6 +1,5 @@
-import React from 'react'
-import { useWeb3React } from '@web3-react/core'
-import useActiveWeb3React from 'hooks/useActiveWeb3React'
+import React, { useState } from 'react'
+import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { Flex, LogoutIcon, useModal, UserMenu as UIKitUserMenu, UserMenuDivider, UserMenuItem } from 'pancakeswap-uikit'
 import useAuth from 'hooks/useAuth'
 import { useProfile } from 'state/profile/hooks'
@@ -14,8 +13,9 @@ import useGetAccount from '../../../hooks/useGetAccount'
 
 const UserMenu = () => {
   const { t } = useTranslation()
-  const { chainId } = useActiveWeb3React()
+  const { error } = useWeb3React()
   const account = useGetAccount()
+  const { chainId } = useWeb3React()
   const { logout } = useAuth()
   const { balance, fetchStatus } = useGetTlosBalance()
   const { isInitialized, isLoading, profile } = useProfile()
@@ -24,17 +24,34 @@ const UserMenu = () => {
   const hasProfile = isInitialized && !!profile
   const avatarSrc = profile && profile.nft ? `/images/nfts/${profile.nft.images.sm}` : undefined
   const hasLowTlosBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_TLOS_BALANCE)
-  
+  const isWrongNetwork: boolean = error && error instanceof UnsupportedChainIdError
+
   if (!account  || !localStorage.getItem('walletconnect')) {
     return <ConnectWalletButton scale="sm" />
   }
-  
-  if (chainId !== parseInt(process.env.REACT_APP_CHAIN_ID)) {
-    return <ConnectWalletButton scale="sm" text="Switch Network" />
+
+  if( chainId !== parseInt(process.env.REACT_APP_CHAIN_ID)) {
+    return (
+      <UIKitUserMenu account={t('Network')} avatarSrc={avatarSrc} variant="danger">
+        <WalletUserMenuItem hasLowTlosBalance={hasLowTlosBalance} onPresentWalletModal={onPresentWalletModal} />
+        <UserMenuItem as="button" onClick={onPresentTransactionModal}>
+          {t('Transactions')}
+        </UserMenuItem>
+        <UserMenuDivider />
+        {/* <ProfileUserMenuItem isLoading={isLoading} hasProfile={hasProfile} /> */}
+        {/* <UserMenuDivider /> */}
+        <UserMenuItem as="button" onClick={logout}>
+          <Flex alignItems="center" justifyContent="space-between" width="100%">
+            {t('Disconnect')}
+            <LogoutIcon />
+          </Flex>
+        </UserMenuItem>
+      </UIKitUserMenu>
+    )
   }
 
   return (
-    <UIKitUserMenu account={account} avatarSrc={avatarSrc}>
+    <UIKitUserMenu account={account} avatarSrc={avatarSrc} >
       <WalletUserMenuItem hasLowTlosBalance={hasLowTlosBalance} onPresentWalletModal={onPresentWalletModal} />
       <UserMenuItem as="button" onClick={onPresentTransactionModal}>
         {t('Transactions')}
