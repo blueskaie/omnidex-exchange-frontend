@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useWeb3React, UnsupportedChainIdError } from '@web3-react/core'
 import { Flex, LogoutIcon, useModal, UserMenu as UIKitUserMenu, UserMenuDivider, UserMenuItem } from 'pancakeswap-uikit'
 import useAuth from 'hooks/useAuth'

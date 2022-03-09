@@ -8,7 +8,6 @@ import { useTranslation } from 'contexts/Localization'
 import { getTelosExplorerLink } from 'utils'
 import { getFullDisplayBalance } from 'utils/formatBalance'
 import ConnectWalletButton from 'components/ConnectWalletButton'
-import CopyAddress from './CopyAddress'
 import useGetAccount from '../../../hooks/useGetAccount'
 
 interface WalletInfoProps {
@@ -30,10 +29,6 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowTlosBalance, onDismiss })
   }
   return (
     <>
-      <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">
-        {t('Your Address')}
-      </Text>
-      <CopyAddress account={account} mb="24px" />
       {
         chainId === parseInt(process.env.REACT_APP_CHAIN_ID) ?
         <>
