@@ -27,8 +27,8 @@ const useAuth = () => {
     async (connectorID: ConnectorNames) => {
       const connectorOrGetConnector = connectorsByName[connectorID]
       const connector =
-        typeof connectorOrGetConnector !== 'function' ? connectorsByName[connectorID] : await connectorOrGetConnector()
-
+      typeof connectorOrGetConnector !== 'function' ? connectorsByName[connectorID] : await connectorOrGetConnector()
+      window.localStorage.setItem("walletconnect", 'connected')
       if (typeof connector !== 'function' && connector) {
         activate(connector, async (error: Error) => {
           if (error instanceof UnsupportedChainIdError) {
@@ -38,8 +38,8 @@ const useAuth = () => {
             if (hasSetup) {
               activate(connector)
             }
-            window.localStorage.setItem("walletconnect", 'connected')
           } else {
+            console.log("ok");
             window.localStorage.removeItem(connectorLocalStorageKey)
             if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
               toastError(t('Provider Error'), t('No provider was found'))
@@ -61,6 +61,7 @@ const useAuth = () => {
       } else {
         window.localStorage.removeItem(connectorLocalStorageKey)
         toastError(t('Unable to find connector'), t('The connector config is wrong'))
+        window.localStorage.setItem("walletconnect", '')
       }
     },
     [t, activate, toastError, setError],

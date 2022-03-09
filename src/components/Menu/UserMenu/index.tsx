@@ -9,13 +9,10 @@ import { useTranslation } from 'contexts/Localization'
 import WalletModal, { WalletView, LOW_TLOS_BALANCE } from './WalletModal'
 import ProfileUserMenuItem from './ProfileUserMenutItem'
 import WalletUserMenuItem from './WalletUserMenuItem'
-import useGetAccount from '../../../hooks/useGetAccount'
 
 const UserMenu = () => {
   const { t } = useTranslation()
-  const { error } = useWeb3React()
-  const account = useGetAccount()
-  const { chainId } = useWeb3React()
+  const { account, error, chainId } = useWeb3React()
   const { logout } = useAuth()
   const { balance, fetchStatus } = useGetTlosBalance()
   const { isInitialized, isLoading, profile } = useProfile()
@@ -26,7 +23,7 @@ const UserMenu = () => {
   const hasLowTlosBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_TLOS_BALANCE)
   const isWrongNetwork: boolean = error && error instanceof UnsupportedChainIdError
 
-  console.log("Wrong Network ", isWrongNetwork, chainId, account)
+  // console.log("Wrong Network ", isWrongNetwork, chainId, account)
 
   if( isWrongNetwork || ( chainId !== parseInt(process.env.REACT_APP_CHAIN_ID) && chainId )) {
     return (
@@ -48,7 +45,7 @@ const UserMenu = () => {
     )
   }
 
-  if (!account && !window.localStorage.getItem("walletconnect") ) {
+  if (!account || !window.localStorage.getItem('walletconnect') ) {
     return <ConnectWalletButton scale="sm" />
   }
 
