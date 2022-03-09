@@ -23,7 +23,6 @@ const useActiveWeb3React = (): Web3ReactContextInterface<Web3Provider> => {
   }, [library])
 
   web3React.account = useGetAccount()
-
   return {
     library: provider,
     chainId: chainId ?? parseInt(process.env.REACT_APP_CHAIN_ID, 10),

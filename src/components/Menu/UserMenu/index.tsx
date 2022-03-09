@@ -1,5 +1,6 @@
 import React from 'react'
 import { useWeb3React } from '@web3-react/core'
+import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import { Flex, LogoutIcon, useModal, UserMenu as UIKitUserMenu, UserMenuDivider, UserMenuItem } from 'pancakeswap-uikit'
 import useAuth from 'hooks/useAuth'
 import { useProfile } from 'state/profile/hooks'
@@ -13,8 +14,9 @@ import useGetAccount from '../../../hooks/useGetAccount'
 
 const UserMenu = () => {
   const { t } = useTranslation()
-  // const { account } = useWeb3React()
+  const { chainId } = useWeb3React()
   const account = useGetAccount()
+  console.log(chainId, account)
   const { logout } = useAuth()
   const { balance, fetchStatus } = useGetTlosBalance()
   const { isInitialized, isLoading, profile } = useProfile()
@@ -23,9 +25,13 @@ const UserMenu = () => {
   const hasProfile = isInitialized && !!profile
   const avatarSrc = profile && profile.nft ? `/images/nfts/${profile.nft.images.sm}` : undefined
   const hasLowTlosBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_TLOS_BALANCE)
-
-  if (!account) {
+  
+  if (!account  || !localStorage.getItem('walletconnect')) {
     return <ConnectWalletButton scale="sm" />
+  }
+  
+  if (chainId !== parseInt(process.env.REACT_APP_CHAIN_ID)) {
+    return <ConnectWalletButton scale="sm" text="Switch Network" />
   }
 
   return (

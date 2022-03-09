@@ -14,6 +14,7 @@ import {
 import BigNumber from 'bignumber.js'
 import { useTranslation } from 'contexts/Localization'
 import styled from 'styled-components'
+import { useWeb3React } from '@web3-react/core'
 import { FetchStatus, useGetTlosBalance } from 'hooks/useTokenBalance'
 import WalletInfo from './WalletInfo'
 import WalletTransactions from './WalletTransactions'
@@ -43,6 +44,7 @@ const WalletModal: React.FC<WalletModalProps> = ({ initialView = WalletView.WALL
   const [view, setView] = useState(initialView)
   const { t } = useTranslation()
   const { balance, fetchStatus } = useGetTlosBalance()
+  const { chainId } = useWeb3React()
   const hasLowTlosBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_TLOS_BALANCE)
 
   const handleClick = (newIndex: number) => {
@@ -59,12 +61,16 @@ const WalletModal: React.FC<WalletModalProps> = ({ initialView = WalletView.WALL
           <CloseIcon width="24px" color="text" />
         </IconButton>
       </ModalHeader>
-      <Tabs>
-        <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
-          <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem>
-          <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
-        </ButtonMenu>
-      </Tabs>
+      {
+        chainId === parseInt(process.env.REACT_APP_CHAIN_ID) ?
+        <Tabs>
+          <ButtonMenu scale="sm" variant="subtle" onItemClick={handleClick} activeIndex={view} fullWidth>
+            <ButtonMenuItem>{t('Wallet')}</ButtonMenuItem>
+            <ButtonMenuItem>{t('Transactions')}</ButtonMenuItem>
+          </ButtonMenu>
+        </Tabs> :
+        <></>
+      }
       <ModalBody p="24px" maxWidth="400px" width="100%">
         {view === WalletView.WALLET_INFO && <WalletInfo hasLowTlosBalance={hasLowTlosBalance} onDismiss={onDismiss} />}
         {view === WalletView.TRANSACTIONS && <WalletTransactions />}

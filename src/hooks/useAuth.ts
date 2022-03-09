@@ -26,13 +26,14 @@ const useAuth = () => {
   const { activate, deactivate } = useWeb3React()
   const { toastError } = useToast()
   const { anchorSession, setAnchorSession } = useContext(AnchorContext)
-
+  
   const login = useCallback(
     async (connectorID: ConnectorNames) => {
       const connector = connectorsByName[connectorID]
       if (connector) {
         window.localStorage.setItem('eth_account_by_telos_account', '')
         window.localStorage.setItem('is_eth_account_exist', null)
+
         if (connectorID === ConnectorNames.Anchor) {
           const a = await connector.login('omnidex')
           setAnchorSession(a.session)
@@ -43,7 +44,9 @@ const useAuth = () => {
             const ethAccount = await getEthAccountByTelosAccount(actor)
             window.localStorage.setItem('eth_account_by_telos_account', toChecksumAddress(ethAccount.address))
           }
+          window.localStorage.setItem('walletconnect', 'connected')
         } else {
+          window.localStorage.setItem('walletconnect', 'connected')
           activate(connector, async (error: Error) => {
             if (error instanceof UnsupportedChainIdError) {
               const hasSetup = await setupNetwork()
@@ -58,11 +61,14 @@ const useAuth = () => {
                   'Provider Error',
                   'It looks like you have Telos Mainnet configured incorrectly. Please recheck the RPC URL and chain id and try again.',
                 )
+                window.localStorage.setItem('walletconnect', '')
               }
             } else {
+              console.log("3")
               window.localStorage.removeItem(connectorLocalStorageKey)
               if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
                 toastError(t('Provider Error'), t('No provider was found'))
+                window.localStorage.setItem('walletconnect', '')
               } else if (
                 error instanceof UserRejectedRequestErrorInjected ||
                 error instanceof UserRejectedRequestErrorWalletConnect
@@ -72,20 +78,24 @@ const useAuth = () => {
                   walletConnector.walletConnectProvider = null
                 }
                 toastError(t('Authorization Error'), t('Please authorize to access your account'))
+                window.localStorage.setItem('walletconnect', '')
               } else {
                 toastError(error.name, error.message)
+                window.localStorage.setItem('walletconnect', '')
               }
             }
           })
         }
       } else {
+        window.localStorage.removeItem(connectorLocalStorageKey)
         toastError(t('Unable to find connector'), t('The connector config is wrong'))
+        window.localStorage.setItem('walletconnect', '')
       }
       // return new Promise((resolve) => {
       //   resolve('Success')
       // })
-    },
-    [setAnchorSession, activate, deactivate, toastError, t],
+    }, 
+    [setAnchorSession, activate, deactivate, toastError, t]
   )
 
   const logout = useCallback(() => {
@@ -101,6 +111,7 @@ const useAuth = () => {
       connectorsByName.walletconnect.close()
       connectorsByName.walletconnect.walletConnectProvider = null
     }
+    window.localStorage.setItem('walletconnect', '')
   }, [deactivate, dispatch, anchorSession, setAnchorSession])
 
   return { login, logout }
