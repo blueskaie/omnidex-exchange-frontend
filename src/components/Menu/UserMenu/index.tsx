@@ -14,9 +14,8 @@ import useGetAccount from '../../../hooks/useGetAccount'
 
 const UserMenu = () => {
   const { t } = useTranslation()
-  const { chainId } = useWeb3React()
+  const { chainId } = useActiveWeb3React()
   const account = useGetAccount()
-  console.log(chainId, account)
   const { logout } = useAuth()
   const { balance, fetchStatus } = useGetTlosBalance()
   const { isInitialized, isLoading, profile } = useProfile()
