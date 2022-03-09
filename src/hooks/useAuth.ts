@@ -38,6 +38,7 @@ const useAuth = () => {
             if (hasSetup) {
               activate(connector)
             }
+            window.localStorage.setItem("walletconnect", 'connected')
           } else {
             window.localStorage.removeItem(connectorLocalStorageKey)
             if (error instanceof NoEthereumProviderError || error instanceof NoBscProviderError) {
@@ -54,6 +55,7 @@ const useAuth = () => {
             } else {
               toastError(error.name, error.message)
             }
+            window.localStorage.setItem("walletconnect", '')
           }
         })
       } else {
@@ -67,6 +69,7 @@ const useAuth = () => {
   const logout = useCallback(() => {
     deactivate()
     clearUserStates(dispatch, chainId)
+    window.localStorage.setItem("walletconnect", '')
   }, [deactivate, dispatch, chainId])
 
   return { login, logout }

@@ -26,9 +26,9 @@ const UserMenu = () => {
   const hasLowTlosBalance = fetchStatus === FetchStatus.SUCCESS && balance.lte(LOW_TLOS_BALANCE)
   const isWrongNetwork: boolean = error && error instanceof UnsupportedChainIdError
 
-  console.log("Wrong Network ", isWrongNetwork)
+  console.log("Wrong Network ", isWrongNetwork, chainId, account)
 
-  if( isWrongNetwork ) {
+  if( isWrongNetwork || ( chainId !== parseInt(process.env.REACT_APP_CHAIN_ID) && chainId )) {
     return (
       <UIKitUserMenu account={t('Network')} avatarSrc={avatarSrc} variant="danger">
         <WalletUserMenuItem hasLowTlosBalance={hasLowTlosBalance} onPresentWalletModal={onPresentWalletModal} />
@@ -48,7 +48,7 @@ const UserMenu = () => {
     )
   }
 
-  if (!account  || !localStorage.getItem('walletconnect')) {
+  if (!account && !window.localStorage.getItem("walletconnect") ) {
     return <ConnectWalletButton scale="sm" />
   }
 
