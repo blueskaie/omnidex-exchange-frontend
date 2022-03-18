@@ -2,7 +2,7 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "paths": ["./src"]
+        "paths": ["./src", ".js", ".jsx", ".ts", ".tsx"]
       }
     }
   },

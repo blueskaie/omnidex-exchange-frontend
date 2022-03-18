@@ -7,7 +7,7 @@ import useAuth from 'hooks/useAuth'
 import { useTranslation } from 'contexts/Localization'
 import { getTelosExplorerLink } from 'utils'
 import { getFullDisplayBalance } from 'utils/formatBalance'
-import CopyAddress from './CopyAddress'
+import ConnectWalletButton from 'components/ConnectWalletButton'
 import useGetAccount from '../../../hooks/useGetAccount'
 
 interface WalletInfoProps {
@@ -17,7 +17,7 @@ interface WalletInfoProps {
 
 const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowTlosBalance, onDismiss }) => {
   const { t } = useTranslation()
-  // const { account } = useWeb3React()
+  const { chainId } = useWeb3React()
   const account = useGetAccount()
   const { balance } = useGetTlosBalance()
   const { balance: cakeBalance } = useTokenBalance(getCakeAddress())
@@ -27,35 +27,44 @@ const WalletInfo: React.FC<WalletInfoProps> = ({ hasLowTlosBalance, onDismiss })
     onDismiss()
     logout()
   }
-
   return (
     <>
-      <Text color="secondary" fontSize="12px" textTransform="uppercase" fontWeight="bold" mb="8px">
-        {t('Your Address')}
-      </Text>
-      <CopyAddress account={account} mb="24px" />
-      {hasLowTlosBalance && (
-        <Message variant="warning" mb="24px">
-          <Box>
-            <Text fontWeight="bold">{t('TLOS Balance Low')}</Text>
-            <Text as="p">{t('You need TLOS for transaction fees.')}</Text>
-          </Box>
-        </Message>
-      )}
-      <Flex alignItems="center" justifyContent="space-between">
-        <Text color="textSubtle">{t('TLOS Balance')}</Text>
-        <Text>{getFullDisplayBalance(balance, 18, 6)}</Text>
-      </Flex>
-      <Flex alignItems="center" justifyContent="space-between" mb="24px">
-        <Text color="textSubtle">{t('CHARM Balance')}</Text>
-        <Text>{getFullDisplayBalance(cakeBalance, 18, 3)}</Text>
-      </Flex>
-      <Flex alignItems="center" justifyContent="end" mb="24px">
-        <LinkExternal href={getTelosExplorerLink(account, 'address')}>{t('View on Telos Explorer')}</LinkExternal>
-      </Flex>
-      <Button variant="secondary" width="100%" onClick={handleLogout}>
-        {t('Disconnect Wallet')}
-      </Button>
+      {
+        chainId === parseInt(process.env.REACT_APP_CHAIN_ID) ?
+        <>
+          {hasLowTlosBalance && (
+            <Message variant="warning" mb="24px">
+              <Box>
+                <Text fontWeight="bold">{t('TLOS Balance Low')}</Text>
+                <Text as="p">{t('You need TLOS for transaction fees.')}</Text>
+              </Box>
+            </Message>
+          )}
+          <Flex alignItems="center" justifyContent="space-between">
+            <Text color="textSubtle">{t('TLOS Balance')}</Text>
+            <Text>{getFullDisplayBalance(balance, 18, 6)}</Text>
+          </Flex>
+          <Flex alignItems="center" justifyContent="space-between" mb="24px">
+            <Text color="textSubtle">{t('CHARM Balance')}</Text>
+            <Text>{getFullDisplayBalance(cakeBalance, 18, 3)}</Text>
+          </Flex>
+          <Flex alignItems="center" justifyContent="end" mb="24px">
+            <LinkExternal href={getTelosExplorerLink(account, 'address')}>{t('View on Telos Explorer')}</LinkExternal>
+          </Flex>
+          <Button variant="secondary" width="100%" onClick={handleLogout}>
+            {t('Disconnect Wallet')}
+          </Button>
+        </> : 
+        <>
+          <Message variant="warning" mb="24px">
+            <Box>
+              <Text fontWeight="bold">{t('Wrong Network!')}</Text>
+              <Text as="p">{t('Please switch network.')}</Text>
+            </Box>
+          </Message>
+          <ConnectWalletButton scale="md" text="Switch Network" />
+        </>
+      }
     </>
   )
 }

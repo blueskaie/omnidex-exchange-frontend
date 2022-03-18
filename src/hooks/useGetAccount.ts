@@ -4,7 +4,7 @@ import { useContext } from 'react'
 import { AnchorContext } from '../contexts/AnchorContext'
 
 const useGetAccount = () => {
-  let account
+  let account = ''
   const { anchorSession } = useContext(AnchorContext)
   const web3Account = useWeb3React().account
 
