@@ -92,3 +92,13 @@
     top: 880px !important;
   }
 }
+
+@media only screen and (max-width: 580px) {
+  .footer-header {
+    width: calc(70%) !important;
+    left: calc(15%) !important;
+  }
+  .footer-main {
+    padding-bottom: 230px!important;
+  }
+}

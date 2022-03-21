@@ -4966,7 +4966,7 @@ var Menu$1 = function (_a) {
                 children,
                 // React__default['default'].createElement(MenuItem$1, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] })
                 )),
-        // isMobile && React__default['default'].createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })
+            isMobile && React__default['default'].createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })
         ));
 };
 var templateObject_1$9, templateObject_2$4, templateObject_3$1, templateObject_4;
