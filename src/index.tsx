@@ -8,6 +8,7 @@ import MulticallUpdater from './state/multicall/updater'
 import TransactionUpdater from './state/transactions/updater'
 import App from './App'
 import Providers from './Providers'
+import Footer from './components/Footer'
 
 function Updaters() {
   return (
@@ -35,6 +36,7 @@ ReactDOM.render(
       <Providers>
         <Updaters />
         <App />
+        <Footer />
       </Providers>
     </Blocklist>
   </React.StrictMode>,

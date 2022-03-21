@@ -4647,22 +4647,22 @@ var Logo$2 = function (_a) {
 };
 var LogoWithText = React__default['default'].memo(Logo$2, function (prev, next) { return prev.isDark === next.isDark; });
 
-var MenuItem$1 = function (_a) {
-    _a.items; var isDark = _a.isDark, toggleTheme = _a.toggleTheme, currentLang = _a.currentLang, langs = _a.langs, setLang = _a.setLang, cakePriceUsd = _a.cakePriceUsd, buyCakeLabel = _a.buyCakeLabel, props = __rest(_a, ["items", "isDark", "toggleTheme", "currentLang", "langs", "setLang", "cakePriceUsd", "buyCakeLabel"]);
-    return (React__default['default'].createElement(StyledFooter, __assign({ p: ["40px 16px", null, "56px 40px 32px 40px"] }, props, { justifyContent: "center" }),
-        React__default['default'].createElement(Flex, { flexDirection: "column", width: ["100%", null, "1200px;"] },
-            React__default['default'].createElement(StyledIconMobileContainer, { display: ["block", null, "none"] },
-                React__default['default'].createElement(LogoWithText, { isDark: true, width: "130px" })),
-            React__default['default'].createElement(StyledSocialLinks, { order: [2], pb: ["42px", null, "32px"], mb: ["0", null, "32px"] }),
-            React__default['default'].createElement(StyledToolsContainer, { order: [1, null, 3], flexDirection: ["column", null, "row"], justifyContent: "space-between" },
-                React__default['default'].createElement(Flex, { order: [2, null, 1], alignItems: "center" },
-                    React__default['default'].createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
-                    React__default['default'].createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, color: darkColors.textSubtle, dropdownPosition: "top-right" })),
-                React__default['default'].createElement(Flex, { order: [1, null, 2], mb: ["24px", null, "0"], justifyContent: "space-between", alignItems: "center" },
-                    React__default['default'].createElement(Box, { mr: "20px" },
-                        React__default['default'].createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd, color: darkColors.textSubtle })),
-                    React__default['default'].createElement(Button, { as: "a", href: "https://demo.telos.finance/swap?outputCurrency=0xd9151F839a9d8D280C0a3a694C82b6865BbCa099", target: "_blank", scale: "sm", endIcon: React__default['default'].createElement(Icon$21, { color: lightColors.backgroundAlt }) }, buyCakeLabel))))));
-};
+// var MenuItem$1 = function (_a) {
+//     _a.items; var isDark = _a.isDark, toggleTheme = _a.toggleTheme, currentLang = _a.currentLang, langs = _a.langs, setLang = _a.setLang, cakePriceUsd = _a.cakePriceUsd, buyCakeLabel = _a.buyCakeLabel, props = __rest(_a, ["items", "isDark", "toggleTheme", "currentLang", "langs", "setLang", "cakePriceUsd", "buyCakeLabel"]);
+//     return (React__default['default'].createElement(StyledFooter, __assign({ p: ["40px 16px", null, "56px 40px 32px 40px"] }, props, { justifyContent: "center" }),
+//         React__default['default'].createElement(Flex, { flexDirection: "column", width: ["100%", null, "1200px;"] },
+//             React__default['default'].createElement(StyledIconMobileContainer, { display: ["block", null, "none"] },
+//                 React__default['default'].createElement(LogoWithText, { isDark: true, width: "130px" })),
+//             React__default['default'].createElement(StyledSocialLinks, { order: [2], pb: ["42px", null, "32px"], mb: ["0", null, "32px"] }),
+//             React__default['default'].createElement(StyledToolsContainer, { order: [1, null, 3], flexDirection: ["column", null, "row"], justifyContent: "space-between" },
+//                 React__default['default'].createElement(Flex, { order: [2, null, 1], alignItems: "center" },
+//                     React__default['default'].createElement(ThemeSwitcher$1, { isDark: isDark, toggleTheme: toggleTheme }),
+//                     React__default['default'].createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, color: darkColors.textSubtle, dropdownPosition: "top-right" })),
+//                 React__default['default'].createElement(Flex, { order: [1, null, 2], mb: ["24px", null, "0"], justifyContent: "space-between", alignItems: "center" },
+//                     React__default['default'].createElement(Box, { mr: "20px" },
+//                         React__default['default'].createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd, color: darkColors.textSubtle })),
+//                     React__default['default'].createElement(Button, { as: "a", href: "https://demo.telos.finance/swap?outputCurrency=0xd9151F839a9d8D280C0a3a694C82b6865BbCa099", target: "_blank", scale: "sm", endIcon: React__default['default'].createElement(Icon$21, { color: lightColors.backgroundAlt }) }, buyCakeLabel))))));
+// };
 
 var StyledMenuItemContainer = styled__default['default'].div(templateObject_1$c || (templateObject_1$c = __makeTemplateObject(["\n  position: relative;\n\n  ", ";\n"], ["\n  position: relative;\n\n  ", ";\n"])), function (_a) {
     var $isActive = _a.$isActive, $variant = _a.$variant, theme = _a.theme;
@@ -4957,15 +4957,17 @@ var Menu$1 = function (_a) {
                     React__default['default'].createElement(CakePrice$1, { cakePriceUsd: cakePriceUsd }))),
                 React__default['default'].createElement(Box, { mt: "4px" },
                     React__default['default'].createElement(LangSelector$1, { currentLang: currentLang, langs: langs, setLang: setLang, buttonScale: "xs", color: "textSubtle", hideLanguage: true })),
-                globalMenu,
+                globalMenu, 
                 " ",
                 userMenu)),
         subLinks && React__default['default'].createElement(SubMenuItems, { items: subLinks, mt: MENU_HEIGHT + 1 + "px", activeItem: activeSubItem }),
         React__default['default'].createElement(BodyWrapper, { mt: !subLinks ? MENU_HEIGHT + 1 + "px" : "0" },
             React__default['default'].createElement(Inner, { isPushed: false, showMenu: showMenu },
                 children,
-                React__default['default'].createElement(MenuItem$1, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] }))),
-        isMobile && React__default['default'].createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })));
+                // React__default['default'].createElement(MenuItem$1, { items: footerLinks, isDark: isDark, toggleTheme: toggleTheme, langs: langs, setLang: setLang, currentLang: currentLang, cakePriceUsd: cakePriceUsd, buyCakeLabel: buyCakeLabel, mb: [MOBILE_MENU_HEIGHT + "px", null, "0px"] })
+                )),
+        // isMobile && React__default['default'].createElement(BottomNav, { items: links, activeItem: activeItem, activeSubItem: activeSubItem })
+        ));
 };
 var templateObject_1$9, templateObject_2$4, templateObject_3$1, templateObject_4;
 
